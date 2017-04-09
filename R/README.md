@@ -1,0 +1,50 @@
+### Summary
+- QR decomposition and Matrix multiplication got a nice ~10x improvement, 
+- Cholesky decomposition and Random matrix generation ~20x
+- Matrix inversion  ~4x
+- SVD ~1.5x
+
+
+### Notes
+1. The speed up is computed based on the mean (without taking into account the standard deviation). It’s for illustration purposes only. 
+2. The system is setup with OpenBLAS, and it uses 8 cores for calculation based on observed CPU usage. The performance gain of the GPU is over 8-core CPU.
+
+
+### Results 
+10 iterations. The matrices involved are all of dimension 1000 x 1000.
+```
+CPU_matrix_cal
+      Generate Matrix    SVD    QR Inverse Cholesky Multiplication
+ [1,]           0.333 46.289 0.516  12.353    0.474          0.142
+ [2,]           0.160 51.292 0.649  12.475    0.540          0.133
+ [3,]           0.286 42.386 0.957  12.261    0.566          0.114
+ [4,]           0.265 48.827 0.863  12.399    0.534          0.127
+ [5,]           0.283 49.755 0.623  12.835    0.573          0.139
+ [6,]           0.149 44.047 1.044  12.849    0.543          0.099
+ [7,]           0.264 51.348 1.401  13.153    0.601          0.146
+ [8,]           0.322 53.814 1.152  12.522    0.550          0.141
+ [9,]           0.150 38.304 1.401  12.476    0.674          0.114
+[10,]           0.286 39.929 1.398  12.583    0.636          0.135
+
+	Generate Matrix          SVD              QR         Inverse        Cholesky	     Multiplication
+#Mean         0.2498         46.5991          1.0004         12.5906          0.5691		 0.1290
+#SD           0.0703          5.2621          0.3375          0.2740          0.0565	     	 0.0153
+
+
+> GPU_matrix_cal
+      Generate Matrix    SVD    QR Inverse Cholesky Multiplication
+ [1,]           0.014 29.472 0.082   3.324    0.010          0.024
+ [2,]           0.023 27.817 0.062   3.504    0.010          0.008
+ [3,]           0.031 28.490 0.081   3.433    0.030          0.007
+ [4,]           0.031 28.467 0.090   3.248    0.020          0.007
+ [5,]           0.007 29.977 0.087   3.498    0.010          0.007
+ [6,]           0.023 29.257 0.085   3.285    0.010          0.016
+ [7,]           0.031 28.973 0.081   3.121    0.017          0.007
+ [8,]           0.007 28.309 0.072   3.265    0.020          0.012
+ [9,]           0.006 28.396 0.072   3.072    0.010          0.007
+[10,]           0.007 28.739 0.089   3.437    0.030          0.007
+
+	Generate Matrix          SVD             QR          Inverse        Cholesky	    Multiplication
+#Mean         0.0180         28.7897         0.0801           3.3187          0.0167           0.0102
+#SD	      0.0110          0.6373         0.0089           0.1500          0.0082           0.0057
+```
